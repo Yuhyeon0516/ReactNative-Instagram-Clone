@@ -124,10 +124,12 @@ export function favoriteFeedRequest() {
   };
 }
 
-export function favoriteFeedSuccess(feedId: FeedInfo["id"]) {
+export function favoriteFeedSuccess(feedId: FeedInfo["id"], myId: string, action: "add" | "delete") {
   return {
     type: FAVORITE_FEED_SUCCESS,
     feedId,
+    myId,
+    action,
   };
 }
 
@@ -139,10 +141,25 @@ export function favoriteFeedFailure() {
 
 export const favoriteFeed =
   (item: FeedInfo): TypeFeedListThunkAction =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     dispatch(favoriteFeedRequest());
+
+    const myId = getState().userInfo.userInfo?.uid || null;
+
+    if (!myId) {
+      dispatch(favoriteFeedFailure());
+      return;
+    }
+
     await sleep(1000);
-    dispatch(favoriteFeedSuccess(item.id));
+
+    const hasMyId = item.likeHistory.filter((likeUserId) => likeUserId === myId).length > 0;
+
+    if (hasMyId) {
+      dispatch(favoriteFeedSuccess(item.id, myId, "delete"));
+    } else {
+      dispatch(favoriteFeedSuccess(item.id, myId, "add"));
+    }
   };
 
 export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>;

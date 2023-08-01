@@ -1,4 +1,5 @@
 import { FeedInfo } from "../@types/FeedInfo";
+import { UserInfo } from "../@types/UserInfo";
 import { TypeRootReducer } from "../store/store";
 import { sleep } from "../utils/sleep";
 import { ThunkAction } from "redux-thunk";
@@ -8,10 +9,10 @@ export const GET_MY_FEED_REQUEST = "GET_MY_FEED_REQUEST" as const;
 export const GET_MY_FEED_SUCCESS = "GET_MY_FEED_SUCCESS" as const;
 export const GET_MY_FEED_FAILURE = "GET_MY_FEED_FAILURE" as const;
 
-export function setUserInfo(userId: string) {
+export function setUserInfo(user: UserInfo) {
   return {
     type: SET_USER_INFO,
-    userId,
+    user,
   };
 }
 
@@ -36,7 +37,13 @@ export function getMyFeedFailure() {
 
 export const signIn = (): TypeUserInfoThunkAction => async (dispatch) => {
   await sleep(1000);
-  dispatch(setUserInfo("Test"));
+  dispatch(
+    setUserInfo({
+      uid: "TEST_UID",
+      name: "TEST_NAME",
+      profileImage: "Test_ProfileImage",
+    })
+  );
 };
 
 export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => {
