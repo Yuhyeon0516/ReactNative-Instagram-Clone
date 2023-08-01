@@ -81,35 +81,53 @@ export const signIn =
     );
   };
 
-export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => {
+export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch, getState) => {
   dispatch(getMyFeedRequest());
-  await sleep(1000);
-  dispatch(
-    getMyFeedSuccess([
-      {
-        id: "ID1",
-        content: "Content1",
-        writer: {
-          name: "Writer1",
-          uid: "UID1",
-        },
-        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
-        likeHistory: ["UID1", "UID2"],
-        createdAt: new Date().getTime(),
-      },
-      {
-        id: "ID2",
-        content: "Content2",
-        writer: {
-          name: "Writer2",
-          uid: "UID2",
-        },
-        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
-        likeHistory: ["UID1", "UID2", "UID3"],
-        createdAt: new Date().getTime(),
-      },
-    ])
-  );
+
+  const lastFeedList = await database()
+    .ref("/feed")
+    .once("value")
+    .then((snapshot) => snapshot.val());
+
+  const result = Object.keys(lastFeedList)
+    .map((key) => {
+      return {
+        ...lastFeedList[key],
+        id: key,
+        likeHistory: lastFeedList[key].likeHistory ?? [],
+      };
+    })
+    .filter((item) => item.writer.uid === getState().userInfo.userInfo?.uid);
+
+  dispatch(getMyFeedSuccess(result.sort((a: FeedInfo, b: FeedInfo) => b.createdAt - a.createdAt)));
+
+  // await sleep(1000);
+  // dispatch(
+  //   getMyFeedSuccess([
+  //     {
+  //       id: "ID1",
+  //       content: "Content1",
+  //       writer: {
+  //         name: "Writer1",
+  //         uid: "UID1",
+  //       },
+  //       image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
+  //       likeHistory: ["UID1", "UID2"],
+  //       createdAt: new Date().getTime(),
+  //     },
+  //     {
+  //       id: "ID2",
+  //       content: "Content2",
+  //       writer: {
+  //         name: "Writer2",
+  //         uid: "UID2",
+  //       },
+  //       image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
+  //       likeHistory: ["UID1", "UID2", "UID3"],
+  //       createdAt: new Date().getTime(),
+  //     },
+  //   ])
+  // );
 };
 
 export type TypeUserInfoDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeUserInfoActions>;
