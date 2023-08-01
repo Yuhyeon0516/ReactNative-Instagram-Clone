@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { View } from "react-native";
+import FeedListItem from "./src/components/FeedListItem";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <FeedListItem
+          image="https://docs.expo.dev/static/images/tutorial/background-image.png"
+          isLiked={false}
+          likeCount={10}
+          writer="Yuhyeon Kim"
+          comment="Test Feed"
+          onPressFeed={() => {
+            console.log("Press");
+          }}
+        />
+      </View>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
