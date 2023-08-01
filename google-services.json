@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "119531477593",
+    "firebase_url": "https://instagram-f1e00-default-rtdb.firebaseio.com",
     "project_id": "instagram-f1e00",
     "storage_bucket": "instagram-f1e00.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:119531477593:android:9dbf64ecd963d7f8daaf48",
+        "mobilesdk_app_id": "1:119531477593:android:a0533385b3cff243daaf48",
         "android_client_info": {
           "package_name": "com.instagram"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "119531477593-fal75b37pi965strqrg812vig674qqu0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.instagram",
+            "certificate_hash": "a0012cc300c242f8c3243269fcf6b6662edf13e7"
+          }
+        },
         {
           "client_id": "119531477593-kcak8q13r0gp4gah969ktlds9jk4h510.apps.googleusercontent.com",
           "client_type": 3
