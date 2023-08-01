@@ -10,10 +10,13 @@ import MultiLineInput from "../components/MultiLineInput";
 import { Spacer } from "../components/Spacer";
 import { Typography } from "../components/Typography";
 import * as ImagePicker from "expo-image-picker";
+import { useDispatch } from "react-redux";
+import { TypeFeedListDispatch, createFeed } from "../actions/feed";
 
 export default function AddFeedScreen() {
   const navigation = useRootNavigation();
   const safeAreaInset = useSafeAreaInsets();
+  const dispatch = useDispatch<TypeFeedListDispatch>();
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -39,8 +42,19 @@ export default function AddFeedScreen() {
     setSelectedPhoto(result.assets[0].uri);
   }, []);
 
-  const onPressSave = useCallback(() => {
+  const onPressSave = useCallback(async () => {
     if (!canSave) return;
+
+    if (!selectedPhoto) return;
+
+    await dispatch(
+      createFeed({
+        image: selectedPhoto,
+        content: inputValue,
+      })
+    );
+
+    navigation.goBack();
   }, [canSave, selectedPhoto, inputValue]);
 
   return (
