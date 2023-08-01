@@ -7,6 +7,14 @@ export const GET_FEED_LIST_REQUEST = "GET_FEED_LIST_REQUEST" as const;
 export const GET_FEED_LIST_SUCCESS = "GET_FEED_LIST_SUCCESS" as const;
 export const GET_FEED_LIST_FAILURE = "GET_FEED_LIST_FAILURE" as const;
 
+export const CREATE_FEED_REQUEST = "CREATE_FEED_REQUEST" as const;
+export const CREATE_FEED_SUCCESS = "CREATE_FEED_SUCCESS" as const;
+export const CREATE_FEED_FAILURE = "CREATE_FEED_FAILURE" as const;
+
+export const FAVORITE_FEED_REQUEST = "FAVORITE_FEED_REQUEST" as const;
+export const FAVORITE_FEED_SUCCESS = "FAVORITE_FEED_SUCCESS" as const;
+export const FAVORITE_FEED_FAILURE = "FAVORITE_FEED_FAILURE" as const;
+
 export function getFeedListRequest() {
   return {
     type: GET_FEED_LIST_REQUEST,
@@ -68,5 +76,83 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
     ])
   );
 };
+
+export function createFeedRequest() {
+  return {
+    type: CREATE_FEED_REQUEST,
+  };
+}
+
+export function createFeedSuccess(item: FeedInfo) {
+  return {
+    type: CREATE_FEED_SUCCESS,
+    item,
+  };
+}
+
+export function createFeedFailure() {
+  return {
+    type: CREATE_FEED_FAILURE,
+  };
+}
+
+export const createFeed =
+  (item: Omit<FeedInfo, "id" | "writer" | "createdAt" | "likeHistory">): TypeFeedListThunkAction =>
+  async (dispatch, getState) => {
+    dispatch(createFeedRequest());
+    const createAt = new Date().getTime();
+    const userInfo = getState().userInfo.userInfo;
+    await sleep(1000);
+    dispatch(
+      createFeedSuccess({
+        id: "ID-010",
+        content: item.content,
+        writer: {
+          name: userInfo?.name ?? "Unknown",
+          uid: userInfo?.uid ?? "Unknown",
+        },
+        image: item.image,
+        likeHistory: [],
+        createdAt: createAt,
+      })
+    );
+  };
+
+export function favoriteFeedRequest() {
+  return {
+    type: FAVORITE_FEED_REQUEST,
+  };
+}
+
+export function favoriteFeedSuccess(feedId: FeedInfo["id"]) {
+  return {
+    type: FAVORITE_FEED_SUCCESS,
+    feedId,
+  };
+}
+
+export function favoriteFeedFailure() {
+  return {
+    type: FAVORITE_FEED_FAILURE,
+  };
+}
+
+export const favoriteFeed =
+  (item: FeedInfo): TypeFeedListThunkAction =>
+  async (dispatch) => {
+    dispatch(favoriteFeedRequest());
+    await sleep(1000);
+    dispatch(favoriteFeedSuccess(item.id));
+  };
+
 export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>;
-export type TypeFeedListActions = ReturnType<typeof getFeedListRequest> | ReturnType<typeof getFeedListSuccess> | ReturnType<typeof getFeedListFailure>;
+export type TypeFeedListActions =
+  | ReturnType<typeof getFeedListRequest>
+  | ReturnType<typeof getFeedListSuccess>
+  | ReturnType<typeof getFeedListFailure>
+  | ReturnType<typeof createFeedRequest>
+  | ReturnType<typeof createFeedSuccess>
+  | ReturnType<typeof createFeedFailure>
+  | ReturnType<typeof favoriteFeedRequest>
+  | ReturnType<typeof favoriteFeedSuccess>
+  | ReturnType<typeof favoriteFeedFailure>;
