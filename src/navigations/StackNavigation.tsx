@@ -4,17 +4,12 @@ import TabNavigation from "./TabNavigation";
 import FeedListScreen from "../screens/FeedListScreen";
 import AddFeedScreen from "../screens/AddFeedScreen";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { FeedInfo } from "../@types/FeedInfo";
 
 type StackPramList = {
   Tab: undefined;
   FeedList: {
-    list: {
-      id: string;
-      content: string;
-      writer: string;
-      image: string;
-      likeCount: number;
-    }[];
+    list: FeedInfo[];
   };
   AddFeed: undefined;
 };

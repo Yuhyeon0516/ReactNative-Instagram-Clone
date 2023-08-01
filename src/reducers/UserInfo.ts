@@ -19,7 +19,7 @@ export function userInfoReducer(state: TypeUserInfoReducer = defaultUserInfoStat
     case GET_MY_FEED_SUCCESS: {
       return {
         ...state,
-        list: action.list,
+        myFeedList: action.list,
       };
     }
   }

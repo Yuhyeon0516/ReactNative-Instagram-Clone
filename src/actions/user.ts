@@ -59,7 +59,7 @@ export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => 
           uid: "UID1",
         },
         image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
-        likeHistory: ["UID1", "UID2", "UID3"],
+        likeHistory: ["UID1", "UID2"],
         createdAt: new Date().getTime(),
       },
       {
