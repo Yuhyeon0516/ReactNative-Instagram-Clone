@@ -2,7 +2,7 @@ import { FeedInfo } from "../@types/FeedInfo";
 import { UserInfo } from "../@types/UserInfo";
 import { TypeRootReducer } from "../store/store";
 import { sleep } from "../utils/sleep";
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 export const SET_USER_INFO = "SET_USER_INFO" as const;
 export const GET_MY_FEED_REQUEST = "GET_MY_FEED_REQUEST" as const;
@@ -58,7 +58,7 @@ export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => 
           name: "Writer1",
           uid: "UID1",
         },
-        image: "ImageURL1",
+        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
         likeHistory: ["UID1", "UID2", "UID3"],
         createdAt: new Date().getTime(),
       },
@@ -69,7 +69,7 @@ export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => 
           name: "Writer2",
           uid: "UID2",
         },
-        image: "ImageURL2",
+        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
         likeHistory: ["UID1", "UID2", "UID3"],
         createdAt: new Date().getTime(),
       },
@@ -77,6 +77,7 @@ export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => 
   );
 };
 
+export type TypeUserInfoDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeUserInfoActions>;
 export type TypeUserInfoThunkAction = ThunkAction<Promise<void>, TypeRootReducer, undefined, TypeUserInfoActions>;
 export type TypeUserInfoActions =
   | ReturnType<typeof setUserInfo>

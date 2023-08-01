@@ -1,7 +1,7 @@
 import { FeedInfo } from "../@types/FeedInfo";
 import { TypeRootReducer } from "../store/store";
 import { sleep } from "../utils/sleep";
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 export const GET_FEED_LIST_REQUEST = "GET_FEED_LIST_REQUEST" as const;
 export const GET_FEED_LIST_SUCCESS = "GET_FEED_LIST_SUCCESS" as const;
@@ -47,7 +47,7 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
           name: "Writer1",
           uid: "UID1",
         },
-        image: "ImageURL1",
+        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
         likeHistory: ["UID1", "UID2", "UID3"],
         createdAt: new Date().getTime(),
       },
@@ -58,7 +58,7 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
           name: "Writer2",
           uid: "UID2",
         },
-        image: "ImageURL2",
+        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
         likeHistory: ["UID1", "UID2", "UID3"],
         createdAt: new Date().getTime(),
       },
@@ -69,7 +69,7 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
           name: "Writer3",
           uid: "UID3",
         },
-        image: "ImageURL3",
+        image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
         likeHistory: ["UID1", "UID2", "UID3"],
         createdAt: new Date().getTime(),
       },
@@ -162,6 +162,7 @@ export const favoriteFeed =
     }
   };
 
+export type TypeFeedListDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeFeedListActions>;
 export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>;
 export type TypeFeedListActions =
   | ReturnType<typeof getFeedListRequest>
