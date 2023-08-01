@@ -54,46 +54,6 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
   });
 
   dispatch(getFeedListSuccess(result.sort((a: FeedInfo, b: FeedInfo) => b.createdAt - a.createdAt)));
-
-  // await sleep(500);
-
-  // dispatch(
-  //   getFeedListSuccess([
-  //     {
-  //       id: "ID1",
-  //       content: "Content1",
-  //       writer: {
-  //         name: "Writer1",
-  //         uid: "UID1",
-  //       },
-  //       image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
-  //       likeHistory: ["UID1", "UID2", "UID3"],
-  //       createdAt: new Date().getTime(),
-  //     },
-  //     {
-  //       id: "ID2",
-  //       content: "Content2",
-  //       writer: {
-  //         name: "Writer2",
-  //         uid: "UID2",
-  //       },
-  //       image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
-  //       likeHistory: ["UID1", "UID2", "UID3"],
-  //       createdAt: new Date().getTime(),
-  //     },
-  //     {
-  //       id: "ID3",
-  //       content: "Content3",
-  //       writer: {
-  //         name: "Writer3",
-  //         uid: "UID3",
-  //       },
-  //       image: "https://docs.expo.dev/static/images/tutorial/background-image.png",
-  //       likeHistory: ["UID1", "UID2", "UID3"],
-  //       createdAt: new Date().getTime(),
-  //     },
-  //   ])
-  // );
 };
 
 export function createFeedRequest() {
@@ -203,14 +163,29 @@ export const favoriteFeed =
       return;
     }
 
-    await sleep(1000);
+    const feedDB = database().ref(`/feed/${item.id}`);
+    const feedItem = (await feedDB.once("value").then((snapshot) => snapshot.val())) as FeedInfo;
 
-    const hasMyId = item.likeHistory.filter((likeUserId) => likeUserId === myId).length > 0;
-
-    if (hasMyId) {
-      dispatch(favoriteFeedSuccess(item.id, myId, "delete"));
-    } else {
+    if (!feedItem.likeHistory) {
+      await feedDB.update({
+        likeHistory: [myId],
+      });
       dispatch(favoriteFeedSuccess(item.id, myId, "add"));
+    } else {
+      const hasMyId = feedItem.likeHistory.filter((likeUserId) => likeUserId === myId).length > 0;
+      if (hasMyId) {
+        await feedDB.update({
+          likeHistory: feedItem.likeHistory.filter((likeUserId) => likeUserId !== myId),
+        });
+
+        dispatch(favoriteFeedSuccess(item.id, myId, "delete"));
+      } else {
+        await feedDB.update({
+          likeHistory: feedItem.likeHistory.concat([myId]),
+        });
+
+        dispatch(favoriteFeedSuccess(item.id, myId, "add"));
+      }
     }
   };
 

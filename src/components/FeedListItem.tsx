@@ -13,6 +13,7 @@ export default function FeedListItem({
   writer,
   comment,
   onPressFeed,
+  onPressFavorite,
 }: {
   image: string;
   isLiked: boolean;
@@ -20,15 +21,18 @@ export default function FeedListItem({
   writer: string;
   comment: string;
   onPressFeed: () => void;
+  onPressFavorite: () => void;
 }) {
   const { width } = useWindowDimensions();
   return (
     <CustomButton onPress={onPressFeed}>
       <View>
         <RemoteImage url={image} width={width} height={width} />
-        <View style={{ paddingHorizontal: 12, paddingVertical: 6 }}>
-          <Icon iconName={isLiked ? "heart" : "heart-outline"} size={20} color={isLiked ? "red" : "black"} />
-        </View>
+        <CustomButton onPress={onPressFavorite}>
+          <View style={{ paddingHorizontal: 12, paddingVertical: 6 }}>
+            <Icon iconName={isLiked ? "heart" : "heart-outline"} size={20} color={isLiked ? "red" : "black"} />
+          </View>
+        </CustomButton>
         <View style={{ paddingHorizontal: 12 }}>
           <Typography fontSize={16}>{`좋아요 ${likeCount}개`}</Typography>
           <Spacer space={4} />

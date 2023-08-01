@@ -4,7 +4,7 @@ import { Header } from "../components/Header/Header";
 import { useTotalFeedList } from "../selectors/feed";
 import FeedListItem from "../components/FeedListItem";
 import { useDispatch } from "react-redux";
-import { TypeFeedListDispatch, getFeedList } from "../actions/feed";
+import { TypeFeedListDispatch, favoriteFeed, getFeedList } from "../actions/feed";
 import { Spacer } from "../components/Spacer";
 import { useRootNavigation } from "../navigations/StackNavigation";
 
@@ -38,6 +38,9 @@ export default function HomeScreen() {
               writer={item.writer.name}
               onPressFeed={() => {
                 console.log("Press Feed");
+              }}
+              onPressFavorite={() => {
+                dispatch(favoriteFeed(item));
               }}
             />
           );

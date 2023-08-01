@@ -4,10 +4,13 @@ import { Header } from "../components/Header/Header";
 import FeedListItem from "../components/FeedListItem";
 import { Spacer } from "../components/Spacer";
 import { useRootNavigation, useRootRoute } from "../navigations/StackNavigation";
+import { useDispatch } from "react-redux";
+import { TypeFeedListDispatch, favoriteFeed } from "../actions/feed";
 
 export default function FeedListScreen() {
   const route = useRootRoute<"FeedList">();
   const navigation = useRootNavigation<"FeedList">();
+  const dispatch = useDispatch<TypeFeedListDispatch>();
 
   return (
     <View style={{ flex: 1 }}>
@@ -27,6 +30,9 @@ export default function FeedListScreen() {
               writer={item.writer.name}
               onPressFeed={() => {
                 console.log("Press Feed");
+              }}
+              onPressFavorite={() => {
+                dispatch(favoriteFeed(item));
               }}
             />
           );
