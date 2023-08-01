@@ -60,11 +60,24 @@ export default function FeedListItem({
           </View>
         </View>
       </DoubleTabButton>
-      <CustomButton onPress={onPressFavorite}>
-        <View style={{ paddingHorizontal: 12, paddingVertical: 6 }}>
-          <Icon iconName={isLiked ? "heart" : "heart-outline"} size={20} color={isLiked ? "red" : "black"} />
+      <View>
+        <View style={{ flex: 1, width: width, paddingHorizontal: 12, paddingVertical: 6, flexDirection: "row" }}>
+          <View style={{ flexDirection: "row" }}>
+            <CustomButton onPress={onPressFavorite}>
+              <View style={{}}>
+                <Icon iconName={isLiked ? "heart" : "heart-outline"} size={20} color={isLiked ? "red" : "black"} />
+              </View>
+            </CustomButton>
+            <Spacer space={10} horizontal />
+            <Icon iconName="chatbubble-outline" size={20} color="black" />
+            <Spacer space={10} horizontal />
+            <Icon iconName="arrow-redo-outline" size={20} color="black" />
+          </View>
+          <View style={{ flex: 1, alignItems: "flex-end" }}>
+            <Icon iconName="bookmark-outline" size={20} color="black" />
+          </View>
         </View>
-      </CustomButton>
+      </View>
       <View style={{ paddingHorizontal: 12 }}>
         <Typography fontSize={16}>{`좋아요 ${likeCount}개`}</Typography>
         <Spacer space={4} />
