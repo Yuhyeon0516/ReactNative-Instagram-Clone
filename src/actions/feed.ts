@@ -88,11 +88,8 @@ export const createFeed =
       .ref(pickPhotoFileName)
       .putFile(Platform.OS === "ios" ? item.image.replace("file://", "") : item.image)
       .then((result) => {
-        console.log(result);
         return storage().ref(result.metadata.fullPath).getDownloadURL();
       });
-
-    console.log(userInfo);
 
     const feedDB = await database().ref("/feed");
     const saveItem: Omit<FeedInfo, "id"> = {

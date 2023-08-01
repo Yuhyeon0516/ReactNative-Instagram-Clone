@@ -3,6 +3,7 @@ import RootApp from "./src/RootApp";
 import { Provider } from "react-redux";
 import { store } from "./src/store/store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import "react-native-gesture-handler";
 
 GoogleSignin.configure({ webClientId: "119531477593-kcak8q13r0gp4gah969ktlds9jk4h510.apps.googleusercontent.com" });
 
