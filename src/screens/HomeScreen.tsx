@@ -17,7 +17,6 @@ export default function HomeScreen() {
   const onPressAdd = useCallback(() => {
     navigation.navigate("AddFeed");
   }, []);
-
   useEffect(() => {
     dispatch(getFeedList());
   }, []);
@@ -48,6 +47,7 @@ export default function HomeScreen() {
           );
         }}
         ItemSeparatorComponent={() => <Spacer space={24} />}
+        ListFooterComponent={() => <Spacer space={50} />}
       />
     </View>
   );

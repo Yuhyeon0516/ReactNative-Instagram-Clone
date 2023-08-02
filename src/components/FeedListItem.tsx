@@ -81,10 +81,10 @@ export default function FeedListItem({
       <View style={{ paddingHorizontal: 12 }}>
         <Typography fontSize={16}>{`좋아요 ${likeCount}개`}</Typography>
         <Spacer space={4} />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{ flexDirection: "row" }}>
           <Typography fontSize={16}>{writer}</Typography>
           <Spacer space={8} horizontal />
-          <Typography fontSize={16}>{comment}</Typography>
+          <Typography fontSize={15}>{comment}</Typography>
         </View>
       </View>
     </View>
