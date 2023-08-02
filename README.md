@@ -43,3 +43,5 @@ instagram@1.0.0 /Users/kim-yuhyeon/Desktop/ReactNative/Instagram
 ```
 
 # Result
+
+![Result](https://github.com/Yuhyeon0516/ReactNative-Instagram-Clone/assets/120432007/9598713d-cc32-4f59-aa87-0848d277e92f)
